@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valyu Add — Deep-research briefings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Real valyu.ai brand fonts: Helios Extended (display) + Neue Montreal (body), self-hosted from valyu.ai · Lora (serif), the same family valyu.ai loads -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  /* ── valyu.ai brand typefaces ── */
+  @font-face{font-family:"Helios Extended";src:url("fonts/HeliosExt.otf") format("opentype");font-weight:400 800;font-display:swap}
+  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Regular.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Medium.otf") format("opentype");font-weight:450 550;font-style:normal;font-display:swap}
+  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Bold.otf") format("opentype");font-weight:600 800;font-style:normal;font-display:swap}
+  :root{
+    --ink:#0b0e14;
+    --ink-2:#3a414f;
+    --paper:#faf9f6;          /* warm paper, not pure white */
+    --paper-2:#f3f1ea;
+    --muted:#6b7280;
+    --line:#e6e3da;
+    --line-2:#d8d4c8;
+    --violet:#7c3aed;          /* valyu accent — used sharply, never as a wash */
+    --violet-2:#6d28d9;
+    --display:"Helios Extended", "Archivo Expanded", Inter, system-ui, sans-serif;
+    --body:"Neue Montreal", Inter, system-ui, sans-serif;
+    --serif:"Lora", Georgia, serif;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.5;font-feature-settings:"ss01","cv01";overflow-x:hidden}
+  /* fine paper grain across the whole page */
+  body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--violet);color:#fff}
+  :focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:4px}
+  .num{font-variant-numeric:tabular-nums}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+  /* announcement bar */
+  .ann{background:#0b0e14;color:#c9cdd6;font-size:12px;text-align:center;padding:9px 16px;letter-spacing:.2px;position:relative;z-index:3}
+  .ann a{display:inline-flex;align-items:center;gap:9px;justify-content:center}
+  .ann b{color:#fff;font-weight:550}
+  .ann .pill{background:var(--violet);color:#fff;font-weight:600;border-radius:999px;padding:2px 9px;font-size:10px;letter-spacing:1px}
+  .ann .arw{transition:transform .25s var(--ease)}
+  .ann a:hover .arw{transform:translateX(4px)}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:30;background:rgba(250,249,246,.78);backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+  nav.stuck{border-bottom-color:var(--line);background:rgba(250,249,246,.92)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.4px}
+  .nav-links{display:flex;gap:28px;font-size:13.5px;color:var(--ink-2);font-weight:500}
+  .nav-links a{position:relative;padding:4px 0}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.cur{color:var(--violet)}
+  .nav-cta{display:flex;gap:9px;align-items:center}
+  .btn{font-family:var(--body);font-weight:600;font-size:13px;border-radius:9px;padding:9px 15px;cursor:pointer;border:1px solid transparent;transition:transform .15s var(--ease),background .2s,border-color .2s;white-space:nowrap}
+  .btn:active{transform:translateY(1px)}
+  .btn-ghost{border-color:var(--line-2);background:transparent;color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:#1d2433}
+  .btn-violet{background:var(--violet);color:#fff;box-shadow:0 6px 16px -6px rgba(124,58,237,.6)}
+  .btn-violet:hover{background:var(--violet-2)}
+
+  .eyebrow{font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--violet)}
+
+  /* ===== MASTHEAD / nameplate ===== */
+  .masthead{padding:54px 0 30px;text-align:center}
+  .mh-rule{display:flex;align-items:center;justify-content:space-between;font-family:var(--display);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:14px}
+  .mh-rule .mid{color:var(--ink-2)}
+  .nameplate{font-family:var(--serif);font-weight:500;font-size:clamp(54px,10.5vw,140px);line-height:.9;letter-spacing:-2.5px;margin:30px 0 8px;color:var(--ink)}
+  .nameplate .by{display:block;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+  .mh-sub{font-size:18px;color:var(--ink-2);max-width:52ch;margin:14px auto 0;line-height:1.5}
+  .mh-sub em{font-family:var(--serif);font-style:italic;color:var(--ink)}
+  .subscribe{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:28px;flex-wrap:wrap}
+  .email-field{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:11px;background:#fff;transition:border-color .2s,box-shadow .2s}
+  .email-field:focus-within{border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,58,237,.14)}
+  .email-field input{border:none;outline:none;background:transparent;font-family:var(--body);font-size:14.5px;padding:13px 16px;width:250px;color:var(--ink)}
+  .email-field input::placeholder{color:#9aa1ad}
+  .email-field .btn{margin:5px;border-radius:8px}
+  .count{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:18px}
+  .count .dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16)}
+  .count b{color:var(--ink);font-weight:600}
+  .trust{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 15px;font-size:12px;color:var(--ink-2);font-weight:500;margin-top:18px}
+  .trust .v{width:14px;height:14px;color:var(--violet)}
+  .trust b{font-weight:600;color:var(--ink)}
+
+  /* ===== COVER STORY (featured) ===== */
+  .coverstory{display:grid;grid-template-columns:1fr .82fr;gap:64px;align-items:center;margin-top:30px;padding-top:46px;border-top:1px solid var(--line)}
+  .cs-text .klabel{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--violet);font-weight:600}
+  .cs-text .klabel::before{content:"";width:26px;height:1px;background:var(--violet)}
+  .cs-text h2{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4vw,56px);line-height:1.02;letter-spacing:-1.2px;margin:18px 0 0}
+  .cs-text .dek{font-size:17px;color:var(--ink-2);line-height:1.55;margin-top:18px;max-width:46ch}
+  .cs-meta{display:flex;gap:18px;align-items:center;margin-top:22px;font-size:13px;color:var(--muted);font-weight:500}
+  .cs-meta .pipe{width:1px;height:13px;background:var(--line-2)}
+  .cs-cta{margin-top:30px;display:inline-flex;align-items:center;gap:10px}
+  .read-link{font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+  .read-link .arw{transition:transform .25s var(--ease)}
+  .read-link:hover .arw{transform:translateX(5px)}
+
+  /* ===== COVER component ===== */
+  .cover{position:relative;aspect-ratio:3/3.95;border-radius:13px;overflow:hidden;color:#fff;cursor:pointer;background:#0a0c14;
+    box-shadow:0 22px 55px -24px rgba(11,14,20,.6);transition:transform .35s var(--ease),box-shadow .35s var(--ease);display:block;width:100%;text-align:left;border:none;padding:0;font:inherit}
+  .cover .img{position:absolute;inset:0;background:#0a0c14 center/cover no-repeat;transform:scale(1.01);transition:transform .8s var(--ease);z-index:0}
+  .cover:hover{transform:translateY(-7px);box-shadow:0 38px 80px -28px rgba(11,14,20,.66)}
+  .cover:hover .img{transform:scale(1.07)}
+  .cover::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(178deg,rgba(8,10,16,.66) 0%,rgba(8,10,16,.05) 30%,rgba(8,10,16,.12) 55%,rgba(8,10,16,.9) 100%)}
+  .cover::after{content:"";position:absolute;inset:0;z-index:3;border-radius:13px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+  .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:space-between;padding:20px}
+  .cover .top{display:flex;justify-content:space-between;align-items:flex-start}
+  .cover .mast{font-family:var(--serif);font-style:italic;font-size:18px;font-weight:500;line-height:1}
+  .cover .mast small{font-family:var(--display);font-style:normal;font-weight:600;font-size:8px;letter-spacing:2px;text-transform:uppercase;opacity:.66;display:block;margin-top:3px}
+  .cover .iss{font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.5px;opacity:.82}
+  .cover .kicker{font-family:var(--display);font-weight:600;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;opacity:.8;margin-bottom:9px}
+  .cover h3{font-family:var(--serif);font-weight:500;font-size:clamp(19px,1.55vw,24px);line-height:1.07;letter-spacing:-.3px}
+  .cover .meta{display:flex;gap:13px;font-size:11px;opacity:.82;font-weight:500;margin-top:14px}
+  .cover .getrow{overflow:hidden;height:0;opacity:0;transition:height .3s var(--ease),opacity .3s var(--ease),margin .3s var(--ease)}
+  .cover:hover .getrow{height:22px;opacity:1;margin-top:12px}
+  .cover .getrow span{font-family:var(--display);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;display:inline-flex;gap:7px;align-items:center}
+  /* big featured cover */
+  .cover.lg{aspect-ratio:auto;height:100%;min-height:480px;border-radius:15px}
+  .cover.lg .pad{padding:26px}
+  .cover.lg .mast{font-size:22px}
+  .feature{position:relative;height:100%}
+  .feature .tag{position:absolute;top:-13px;left:18px;z-index:5;background:var(--violet);color:#fff;font-family:var(--display);font-weight:600;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 13px;border-radius:8px;box-shadow:0 8px 22px -6px rgba(124,58,237,.6)}
+
+  /* ===== ARCHIVE ===== */
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-top:1px solid var(--line);padding-top:28px;margin-top:96px;flex-wrap:wrap}
+  .sec-head .t{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase}
+  .sec-head h2{font-family:var(--serif);font-weight:500;font-size:34px;letter-spacing:-.8px;margin-top:8px;line-height:1}
+  .sort{font-size:13px;display:flex;gap:6px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:5px}
+  .sort button{font-family:var(--body);font-size:12.5px;font-weight:550;color:var(--muted);background:transparent;border:none;cursor:pointer;padding:7px 13px;border-radius:8px;transition:.18s}
+  .sort button:hover{color:var(--ink)}
+  .sort button.on{color:#fff;background:var(--ink)}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:36px 24px;margin-top:36px}
+  .item .label{margin-top:15px;border-top:1px solid var(--line);padding-top:13px}
+  .item .label .n{font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:1px;color:var(--violet);text-transform:uppercase}
+  .item .label .t{font-family:var(--serif);font-weight:500;font-size:18px;line-height:1.16;margin-top:7px;letter-spacing:-.2px;transition:color .2s}
+  .item:hover .label .t{color:var(--violet-2)}
+  .item .label .d{font-size:12px;color:var(--muted);margin-top:9px;display:flex;gap:10px;align-items:center}
+  .item .label .d .pipe{width:1px;height:11px;background:var(--line-2)}
+  .item.hide{display:none}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+
+  /* ===== SUBSCRIBE STRIP ===== */
+  .strip{margin:104px 0 0;background:var(--ink);border-radius:24px;padding:60px 52px;color:#fff;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;position:relative;overflow:hidden}
+  .strip::before{content:"";position:absolute;right:-120px;top:-90px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.5),transparent 68%)}
+  .strip::after{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+  .strip .l{position:relative;z-index:2}
+  .strip .eyebrow{color:#b89bf0}
+  .strip h2{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3.4vw,44px);letter-spacing:-1px;line-height:1.02;margin-top:14px}
+  .strip p{color:#aab1c0;margin-top:14px;font-size:15px;max-width:42ch;line-height:1.55}
+  .strip .r{position:relative;z-index:2;text-align:right}
+  .strip .email-field{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
+  .strip .email-field input{color:#fff;width:228px}
+  .strip .email-field input::placeholder{color:#8a92a3}
+  .strip .fine{color:#7e869a;font-size:11.5px;margin-top:12px}
+
+  /* ===== FOOTER ===== */
+  footer{margin-top:80px;border-top:1px solid var(--line);padding:54px 0 64px;font-size:13px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+  .foot-grid h4{font-family:var(--display);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:600}
+  .foot-grid a{display:block;color:var(--ink-2);margin-bottom:9px}
+  .foot-grid a:hover{color:var(--violet)}
+  .foot-brand .nameplate-sm{font-family:var(--serif);font-size:30px;letter-spacing:-1px;font-weight:500}
+  .foot-brand p{color:var(--muted);margin-top:10px;max-width:30ch;line-height:1.5}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:40px;padding-top:22px;color:var(--muted);flex-wrap:wrap;gap:10px}
+
+  /* ===== MODAL ===== */
+  .scrim{position:fixed;inset:0;background:rgba(8,10,16,.5);backdrop-filter:blur(4px);z-index:90;display:none;align-items:flex-start;justify-content:center;padding:56px 20px;overflow:auto}
+  .scrim.open{display:flex;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .modal{background:var(--paper);border-radius:18px;max-width:900px;width:100%;overflow:hidden;box-shadow:0 50px 130px -30px rgba(8,10,16,.65);animation:pop .26s var(--ease);position:relative}
+  @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  .modal .x{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--line);cursor:pointer;font-size:15px;color:var(--ink-2);z-index:6;transition:.18s}
+  .modal .x:hover{background:#fff;color:var(--ink)}
+  .modal-pad{padding:42px 46px 26px}
+  .modal h2{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3.6vw,44px);line-height:1.0;letter-spacing:-1px;max-width:18ch;margin-top:14px}
+  .modal .dek{color:var(--ink-2);font-size:16px;margin-top:16px;max-width:56ch;line-height:1.55}
+  .modal .row{display:flex;align-items:center;gap:28px;margin-top:26px;flex-wrap:wrap}
+  .modal .when{font-size:13px;color:var(--muted);line-height:1.55}
+  .modal .when b{color:var(--ink);display:block;font-weight:600}
+  .modal .email-field input{width:226px}
+  .modal-hero{height:280px;position:relative;background:#0a0c14 center/cover no-repeat;display:flex;align-items:flex-end;padding:24px;color:#fff;margin-top:8px}
+  .modal-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,10,16,.7),rgba(8,10,16,.05))}
+  .modal-hero .mast{font-family:var(--serif);font-style:italic;font-size:21px;position:relative;z-index:2}
+  .byline{display:flex;align-items:center;gap:14px;padding:20px 46px 36px}
+  .ava{display:flex}
+  .ava span{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#0b0e14);border:2px solid var(--paper);margin-left:-10px}
+  .ava span:first-child{margin-left:0}
+  .byline .who{font-size:13px}
+  .byline .who b{font-weight:600}
+  .byline .who span{color:var(--muted)}
+
+  @media(max-width:980px){
+    .coverstory{grid-template-columns:1fr;gap:36px}
+    .feature{max-width:360px;min-height:0}
+    .cover.lg{min-height:430px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:30px 18px}
+    .nav-links{display:none}
+    .strip{grid-template-columns:1fr;text-align:left}
+    .strip .r{text-align:left}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .mh-rule{font-size:9px;letter-spacing:1.5px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="ann"><a href="#"><span class="pill">NEW</span> Issue Nº 01 — <b>The $77M Error: Inside Hub Group’s Accounting Collapse</b> <span class="arw">→</span></a></div>
+
+<nav id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M2 4 L12 21 L22 4" stroke="#0b0e14" stroke-width="2.4" stroke-linejoin="round"/></svg>VALYU</a>
+    <div class="nav-links">
+      <a href="#">Product</a><a href="#">Solutions</a><a href="#">Publishers</a>
+      <a href="#" class="cur">Valyu Add</a><a href="#">Pricing</a><a href="#">Docs</a>
+    </div>
+    <div class="nav-cta">
+      <button class="btn btn-ghost">Log in</button>
+      <button class="btn btn-dark">Book a call</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MASTHEAD -->
+<header class="masthead wrap reveal">
+  <div class="mh-rule">
+    <span>Independent Research</span>
+    <span class="mid num">Bi-Weekly · Est. 2026</span>
+    <span class="num">Edition Nº 09</span>
+  </div>
+  <h1 class="nameplate"><span class="by">A Deep-Research Briefing</span>Valyu Add</h1>
+  <p class="mh-sub">One company or market, taken completely apart — every other week. <em>Deep, cited, and verified</em> with Valyu DeepResearch.</p>
+  <div class="subscribe">
+    <div class="email-field">
+      <input type="email" placeholder="you@firm.com" aria-label="Email address" />
+      <button class="btn btn-violet">Subscribe</button>
+    </div>
+  </div>
+  <div><span class="count"><span class="dot"></span><b class="num">12,418</b>&nbsp;researchers, analysts &amp; founders read Valyu Add</span></div>
+  <div><span class="trust"><svg class="v" viewBox="0 0 24 24" fill="none"><path d="M2 4 L12 21 L22 4" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>Every issue researched with <b>Valyu DeepResearch</b> · avg. <b class="num">34</b> cited sources</span></div>
+</header>
+
+<!-- COVER STORY -->
+<section class="wrap">
+  <div class="coverstory reveal">
+    <div class="cs-text">
+      <span class="klabel">The Latest Issue · Nº 01</span>
+      <h2>The $77M Error</h2>
+      <p class="dek">How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.</p>
+      <div class="cs-meta"><span>Finance</span><span class="pipe"></span><span class="num">14 min read</span><span class="pipe"></span><span class="num">41 cited sources</span></div>
+      <div class="cs-cta"><button class="btn btn-violet" onclick="openIssue(1)">Get this issue</button>
+        <span class="read-link" onclick="openIssue(1)">Preview <span class="arw">→</span></span></div>
+    </div>
+    <div class="feature">
+      <div class="tag">Latest issue</div>
+      <button class="cover lg" onclick="openIssue(1)" aria-label="Open issue 1">
+        <div class="img" style="background-image:url('images/01-hubgroup.png')"></div>
+        <div class="pad">
+          <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Nº 01 · 12 Jun 2026</div></div>
+          <div>
+            <div class="kicker">Finance</div>
+            <h3 style="font-size:30px">The $77M Error: Inside Hub Group’s Accounting Collapse</h3>
+            <div class="meta"><span class="num">◷ 14 min</span><span class="num">❡ 41 sources</span></div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHIVE -->
+<section class="wrap">
+  <div class="sec-head reveal">
+    <div>
+      <div class="t">The Archive</div>
+      <h2>Every issue, in full</h2>
+    </div>
+    <div class="sort" id="sort">
+      <button class="on" data-cat="all">Latest</button>
+      <button data-cat="Technology">Technology</button>
+      <button data-cat="Finance">Finance</button>
+      <button data-cat="Life Sciences">Life Sciences</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- SUBSCRIBE STRIP -->
+<section class="wrap">
+  <div class="strip reveal">
+    <div class="l">
+      <div class="eyebrow">Sign up for Valyu Add</div>
+      <h2>One great research read,<br>every two weeks.</h2>
+      <p>Free. No fluff. The kind of deep, sourced analysis our DeepResearch engine produces — written for humans.</p>
+    </div>
+    <div class="r">
+      <div class="email-field">
+        <input type="email" placeholder="you@firm.com" aria-label="Email address" />
+        <button class="btn btn-violet">Subscribe</button>
+      </div>
+      <div class="fine">Join 12,418 readers · unsubscribe anytime</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="nameplate-sm">Valyu Add</div>
+        <p>Deep-research briefings on the companies &amp; markets that move. Produced with Valyu DeepResearch.</p>
+      </div>
+      <div><h4>Sections</h4><a href="#">Technology</a><a href="#">Finance</a><a href="#">Life Sciences</a><a href="#">Full archive</a></div>
+      <div><h4>Valyu</h4><a href="#">Search API</a><a href="#">DeepResearch</a><a href="#">Pricing</a><a href="#">Docs</a></div>
+      <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">X / Twitter</a><a href="#">LinkedIn</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Valyu · Valyu Add is produced with Valyu DeepResearch</span>
+      <span class="num">Edition Nº 09 · Bi-Weekly</span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="scrim" id="scrim">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <button class="x" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-pad">
+      <div class="eyebrow" id="m-eyebrow">Issue Nº 01 · Finance</div>
+      <h2 id="m-title">The $77M Error</h2>
+      <p class="dek" id="m-dek"></p>
+      <div class="row">
+        <div class="when"><b id="m-when">Published 12 Jun 2026</b><span id="m-meta">14 min read · 41 cited sources</span></div>
+        <div class="email-field"><input type="email" placeholder="you@firm.com" aria-label="Email address" /><button class="btn btn-violet">Get issue</button></div>
+      </div>
+    </div>
+    <div class="modal-hero" id="m-hero"><div class="mast" id="m-mast">Valyu Add — Nº 01</div></div>
+  </div>
+</div>
+
+<script>
+  const ISSUES = [
+    {n:1, img:'01-hubgroup',  k:'Finance',       t:'The $77M Error: Inside Hub Group’s Accounting Collapse', d:'12 Jun 2026', r:14, s:41, dek:'How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.'},
+    {n:2, img:'02-stablecoin',  k:'Finance',       t:'Reserve Currency: What Backs the Stablecoin Boom', d:'29 May 2026', r:12, s:38, dek:'What actually sits behind the stablecoin float — T-bills, repo, and the reserves that decide whether a peg holds under stress.'},
+    {n:3, img:'03-nvidia',      k:'Technology',    t:'The Cost of Compute: Nvidia’s Pricing Power Decoded', d:'15 May 2026', r:16, s:52, dek:'Margins, allocation, and the pricing power behind the world’s most valuable chipmaker — read line by line.'},
+    {n:4, img:'04-asml',        k:'Technology',    t:'Selling the Picks: How ASML Cornered Lithography', d:'1 May 2026', r:13, s:33, dek:'One company makes the machines that make every advanced chip. We trace how ASML built an unassailable monopoly.'},
+    {n:5, img:'05-novonordisk', k:'Life Sciences', t:'The Weight of a Breakthrough: Novo Nordisk &amp; GLP-1', d:'17 Apr 2026', r:15, s:36, dek:'GLP-1 turned a quiet insulin maker into Europe’s most valuable company. We follow both the money and the molecule.'},
+    {n:6, img:'06-wework',      k:'Finance',       t:'Burning Runway: A Forensic Read of WeWork’s Filings', d:'3 Apr 2026', r:11, s:44, dek:'A forensic read of the filings behind the most expensive startup collapse of the decade.'},
+    {n:7, img:'07-intuitive',   k:'Life Sciences', t:'The Robot in the OR: Inside Intuitive Surgical', d:'20 Mar 2026', r:13, s:30, dek:'How Intuitive Surgical built a razor-and-blades empire in the operating room — and what defends it.'},
+    {n:8, img:'08-msci',        k:'Finance',       t:'Indexing the World: The MSCI Moat', d:'6 Mar 2026', r:12, s:31, dek:'The index nobody can ignore. How MSCI turned a data set into a toll booth on global capital.'},
+    {n:9, img:'09-svb',         k:'Finance',       t:'Deposits &amp; Duration: What SVB’s Balance Sheet Told Us', d:'20 Feb 2026', r:14, s:48, dek:'Deposits, duration, and the balance-sheet mismatch that took down a bank in 48 hours.'},
+  ];
+  const byN = Object.fromEntries(ISSUES.map(i=>[i.n,i]));
+  const pad = n => String(n).padStart(2,'0');
+
+  // render archive (issues 2..9)
+  const g = document.getElementById('grid');
+  g.innerHTML = ISSUES.filter(i=>i.n>1).map(i=>`
+    <div class="item reveal" data-cat="${i.k}">
+      <button class="cover" onclick="openIssue(${i.n})" aria-label="Open issue ${i.n}">
+        <div class="img" style="background-image:url('images/${i.img}.png')"></div>
+        <div class="pad">
+          <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Nº ${pad(i.n)}</div></div>
+          <div>
+            <div class="kicker">${i.k}</div>
+            <h3>${i.t}</h3>
+            <div class="meta"><span class="num">◷ ${i.r} min</span><span class="num">❡ ${i.s} sources</span></div>
+            <div class="getrow"><span>Get issue →</span></div>
+          </div>
+        </div>
+      </button>
+      <div class="label">
+        <div class="n">Nº ${pad(i.n)} — ${i.k}</div>
+        <div class="t">${i.t}</div>
+        <div class="d"><span class="num">${i.d}</span><span class="pipe"></span><span class="num">${i.r} min</span></div>
+      </div>
+    </div>`).join('');
+
+  // filters
+  document.getElementById('sort').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#sort button').forEach(x=>x.classList.toggle('on', x===b));
+    const cat = b.dataset.cat;
+    document.querySelectorAll('.item').forEach(it=>{
+      it.classList.toggle('hide', cat!=='all' && it.dataset.cat!==cat);
+    });
+  });
+
+  // modal
+  const $ = id => document.getElementById(id);
+  function openIssue(n){
+    const i = byN[n];
+    $('m-eyebrow').textContent = `Issue Nº ${pad(n)} · ${i.k}`;
+    $('m-title').innerHTML = i.t.split(':')[0];
+    $('m-dek').innerHTML = i.dek;
+    $('m-when').textContent = `Published ${i.d}`;
+    $('m-meta').textContent = `${i.r} min read · ${i.s} cited sources`;
+    $('m-mast').textContent = `Valyu Add — Nº ${pad(n)}`;
+    $('m-hero').style.backgroundImage = `linear-gradient(0deg,rgba(8,10,16,.7),rgba(8,10,16,.05)),url('images/${i.img}.png')`;
+    $('scrim').classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeModal(){ $('scrim').classList.remove('open'); document.body.style.overflow=''; }
+  $('scrim').addEventListener('click', e=>{ if(e.target===$('scrim')) closeModal(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+  // sticky nav shadow
+  const nav = $('nav');
+  addEventListener('scroll', ()=> nav.classList.toggle('stuck', scrollY>10));
+
+  // orchestrated scroll reveal (staggered)
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+  }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach((el,idx)=>{
+    el.style.transitionDelay = (Math.min(idx,6)*60)+'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>

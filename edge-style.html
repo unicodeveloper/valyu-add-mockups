@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valyu Add — A bi-weekly research briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- valyu.ai brand fonts: Helios Extended (display), Neue Montreal (body), Helvetica Now Display (buttons) self-hosted from valyu.ai · Lora (serif) -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  /* ── valyu.ai brand typefaces ── */
+  @font-face{font-family:"Helios Extended";src:url("fonts/HeliosExt.otf") format("opentype");font-weight:400 800;font-display:swap}
+  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Regular.otf") format("opentype");font-weight:400;font-display:swap}
+  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Medium.otf") format("opentype");font-weight:450 550;font-display:swap}
+  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Bold.otf") format("opentype");font-weight:600 800;font-display:swap}
+  @font-face{font-family:"Helvetica Now Display";src:url("fonts/HelveticaNowDisplay-Bold.ttf") format("truetype");font-weight:600 800;font-display:swap}
+  :root{
+    --ink:#020817;          /* valyu near-black navy */
+    --paper:#ffffff;
+    --muted:#5b6472;
+    --line:#e7e8ec;
+    --line-2:#d8dade;
+    --violet:#7c3aed;       /* valyu accent */
+    --violet-2:#6d28d9;
+    --serif:"Lora", Georgia, serif;
+    --display:"Helios Extended", "Archivo Expanded", Inter, system-ui, sans-serif;
+    --body:"Neue Montreal", Inter, system-ui, sans-serif;
+    --cta:"Helvetica Now Display", "Neue Montreal", system-ui, sans-serif;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--violet);color:#fff}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+  /* announcement bar (valyu dark bar w/ violet wash) */
+  .ann{background:#0b0e14;color:#cdd1da;font-size:13px;text-align:center;padding:9px 16px;position:relative;overflow:hidden}
+  .ann::before{content:"";position:absolute;left:-8%;top:0;bottom:0;width:42%;background:linear-gradient(90deg,rgba(124,58,237,.5),transparent);pointer-events:none}
+  .ann a{display:inline-flex;gap:9px;align-items:center;justify-content:center;position:relative;z-index:1}
+  .ann b{color:#fff;font-weight:600}
+  .ann .arw{transition:transform .25s var(--ease)}
+  .ann a:hover .arw{transform:translateX(4px)}
+
+  /* nav (white, valyu) */
+  nav{background:rgba(255,255,255,.82);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .logo{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.4px;color:var(--ink)}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:#3b4252;font-weight:450}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.cur{color:var(--violet);font-weight:600}
+  .nav-cta{display:flex;gap:10px;align-items:center}
+  .btn{font-family:var(--body);font-weight:600;font-size:13.5px;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid transparent;transition:.18s var(--ease);white-space:nowrap}
+  .btn-line{border-color:rgba(2,8,23,.18);background:transparent;color:var(--ink)}
+  .btn-line:hover{border-color:var(--ink)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:#1a2233}
+  /* valyu uppercase CTA */
+  .btn-cta{font-family:var(--cta);text-transform:uppercase;letter-spacing:.8px;font-weight:700;font-size:12px;border-radius:6px;padding:13px 20px}
+  .btn-violet{background:var(--violet);color:#fff;border-color:var(--violet);box-shadow:0 10px 24px -10px rgba(124,58,237,.65)}
+  .btn-violet:hover{background:var(--violet-2)}
+
+  /* ===== HERO (light, valyu) ===== */
+  .hero{position:relative;background:var(--paper);overflow:hidden;padding:74px 0 88px;text-align:center}
+  .hero .engrave{position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(1500px,135%);aspect-ratio:600/372;
+    background:url("assets/valyu-engraving.png") top center/contain no-repeat;opacity:.12;pointer-events:none;z-index:0;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 42%,transparent 78%);mask-image:linear-gradient(180deg,#000 0%,#000 42%,transparent 78%)}
+  .hero .glow{position:absolute;top:-180px;left:50%;transform:translateX(-50%);width:920px;height:440px;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(124,58,237,.30),rgba(99,102,241,.12) 42%,transparent 70%);filter:blur(26px)}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{font-family:var(--display);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--violet);font-weight:600}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,4.6vw,62px);line-height:1.04;letter-spacing:-.5px;text-transform:uppercase;margin:20px auto 0;max-width:20ch}
+  .hero .lede{font-size:18px;color:var(--muted);max-width:52ch;margin:22px auto 0;line-height:1.55}
+  .hero .sub{margin-top:30px}
+  .email-field{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line-2);border-radius:11px;padding:5px;gap:6px;box-shadow:0 2px 10px -4px rgba(2,8,23,.08);transition:border-color .2s,box-shadow .2s}
+  .email-field:focus-within{border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,58,237,.14)}
+  .email-field .mail{width:30px;height:30px;border-radius:7px;background:var(--violet);display:flex;align-items:center;justify-content:center;margin-left:6px;flex:none}
+  .email-field input{border:none;outline:none;background:transparent;font-family:var(--body);font-size:15px;padding:9px 8px;width:236px;color:var(--ink)}
+  .email-field input::placeholder{color:#9aa1ad}
+  .hero .count{display:block;color:var(--muted);font-size:13px;margin-top:16px}
+
+  /* latest cover story */
+  .latest{margin-top:78px}
+  .latest .cap{text-align:center;font-family:var(--serif);font-style:italic;font-size:20px;color:#8a92a3;margin-bottom:26px}
+  .cs{display:grid;grid-template-columns:.92fr 1.08fr;gap:54px;align-items:center;max-width:1040px;margin:0 auto;text-align:left}
+  .cs .k{font-family:var(--display);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--violet);font-weight:600}
+  .cs h2{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3.6vw,50px);line-height:1.04;letter-spacing:-1px;margin:14px 0 0;color:var(--ink)}
+  .cs p{color:var(--muted);font-size:16px;line-height:1.55;margin-top:16px;max-width:42ch}
+  .cs .meta{margin-top:20px;color:var(--muted);font-size:13.5px;display:flex;gap:14px;align-items:center}
+  .cs .meta .pipe{width:1px;height:13px;background:var(--line-2)}
+  .cs .go{margin-top:26px}
+
+  /* ===== COVER (magazine cover) ===== */
+  .cover{position:relative;aspect-ratio:3/3.92;border-radius:11px;overflow:hidden;color:#fff;cursor:pointer;background:#0a0c14;display:block;width:100%;text-align:left;border:0;padding:0;font:inherit;box-shadow:0 22px 54px -24px rgba(2,8,23,.5);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+  .cover .img{position:absolute;inset:0;background:#0a0c14 center/cover no-repeat;z-index:0;transition:transform .8s var(--ease)}
+  .cover:hover{transform:translateY(-6px);box-shadow:0 36px 76px -28px rgba(2,8,23,.55)}
+  .cover:hover .img{transform:scale(1.05)}
+  .cover::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,9,12,.72) 0%,rgba(8,9,12,.12) 30%,rgba(8,9,12,.1) 52%,rgba(8,9,12,.9) 100%)}
+  .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:22px}
+  .cover .row1{display:flex;justify-content:space-between;font-family:var(--display);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:600}
+  .cover .mast{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.7vw,38px);line-height:.92;letter-spacing:-.5px;margin-top:14px}
+  .cover .mast small{display:block;font-family:var(--display);font-weight:600;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:6px}
+  .cover .btm{margin-top:auto}
+  .cover .btm .kk{font-family:var(--display);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.74);font-weight:600;margin-bottom:8px}
+  .cover .btm h3{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.9vw,27px);line-height:1.06;letter-spacing:-.3px}
+  .cover.lg{aspect-ratio:auto;height:100%;min-height:470px}
+
+  /* ===== TESTIMONIAL (light panel) ===== */
+  .quote{background:#faf9f6;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:78px 0}
+  .quote .q{max-width:880px;margin:0 auto;text-align:center}
+  .quote blockquote{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.5vw,32px);line-height:1.34;letter-spacing:-.4px;color:var(--ink)}
+  .quote .who{margin-top:24px;color:var(--muted);font-size:14px}
+  .quote .who b{color:var(--ink);font-weight:600}
+
+  /* ===== ARCHIVE (light) ===== */
+  .archive{padding:84px 0 40px}
+  .ar-head{text-align:center;margin-bottom:46px}
+  .ar-head h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.2vw,40px);letter-spacing:-.4px;text-transform:uppercase}
+  .ar-head p{color:var(--muted);font-size:16px;margin-top:12px}
+  .filters{display:flex;gap:8px;justify-content:center;margin-top:26px}
+  .filters button{font-family:var(--body);font-size:13px;font-weight:500;color:var(--muted);background:#f4f4f4;border:1px solid var(--line);cursor:pointer;padding:8px 16px;border-radius:999px;transition:.18s}
+  .filters button:hover{color:var(--ink)}
+  .filters button.on{color:#fff;background:var(--violet);border-color:var(--violet)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:42px 26px}
+  .item .label{margin-top:16px}
+  .item .label .n{font-family:var(--display);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--violet);font-weight:600}
+  .item .label .t{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.18;margin-top:7px;letter-spacing:-.2px;transition:color .2s}
+  .item:hover .label .t{color:var(--violet-2)}
+  .item .label .d{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .item.hide{display:none}
+
+  /* ===== FOOTER ===== */
+  .foot-cta{text-align:center;padding:72px 0 78px;border-top:1px solid var(--line);margin-top:50px}
+  .foot-cta h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,3vw,38px);letter-spacing:-.3px;text-transform:uppercase}
+  .foot-cta p{color:var(--muted);margin-top:12px;font-size:15px}
+  .foot-cta .sub{margin-top:26px}
+  footer{background:#fff;border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding:54px 0 60px}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px}
+  .foot-brand .logo{color:var(--ink);font-size:17px}
+  .foot-brand p{margin-top:12px;max-width:30ch;line-height:1.5;color:var(--muted)}
+  .foot-grid h4{font-family:var(--display);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:#8a92a3;margin-bottom:14px;font-weight:600}
+  .foot-grid a{display:block;color:#3b4252;margin-bottom:9px}
+  .foot-grid a:hover{color:var(--violet)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:40px;padding-top:22px;color:var(--muted);flex-wrap:wrap;gap:10px}
+
+  /* ===== MODAL ===== */
+  .scrim{position:fixed;inset:0;background:rgba(2,8,23,.45);backdrop-filter:blur(5px);z-index:90;display:none;align-items:flex-start;justify-content:center;padding:54px 20px;overflow:auto}
+  .scrim.open{display:flex;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .modal{background:#fff;border-radius:20px;max-width:760px;width:100%;padding:44px 46px 38px;position:relative;box-shadow:0 50px 130px -30px rgba(2,8,23,.6);animation:pop .26s var(--ease)}
+  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
+  .modal .x{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;background:#f1f1f2;border:none;cursor:pointer;font-size:15px;color:var(--muted);transition:.18s}
+  .modal .x:hover{background:#e6e6e7;color:var(--ink)}
+  .modal h2{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4vw,46px);line-height:1.02;letter-spacing:-1px;max-width:15ch}
+  .modal .dek{color:var(--muted);font-size:17px;line-height:1.5;margin-top:18px;max-width:58ch}
+  .modal .row{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:28px 0 24px;flex-wrap:wrap}
+  .modal .when{font-size:14px;color:var(--muted);line-height:1.5}
+  .modal .when b{color:var(--ink);font-weight:600;display:block}
+  .modal .getf{display:flex;gap:10px;align-items:center}
+  .modal .email-field input{width:188px}
+  .modal-hero{height:300px;border-radius:14px;background:#0a0c14 center/cover no-repeat;position:relative;overflow:hidden}
+  .modal-hero::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);border-radius:14px}
+  .byline{display:flex;align-items:center;gap:16px;margin-top:26px}
+  .ava{display:flex}
+  .ava span{width:42px;height:42px;border-radius:50%;border:2px solid #fff;margin-left:-12px;background:linear-gradient(135deg,#7c3aed,#020817)}
+  .ava span:first-child{margin-left:0}
+  .byline .who{font-size:15px;line-height:1.5}
+  .byline .who b{font-weight:600}
+  .byline .who .rev{color:var(--muted)}
+
+  @media(max-width:920px){
+    .cs{grid-template-columns:1fr;gap:32px}
+    .cs .feature{max-width:340px}
+    .cover.lg{min-height:420px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:34px 18px}
+    .nav-links{display:none}
+    .modal .row{flex-direction:column;align-items:flex-start}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="ann"><a href="#">🏆 Introducing Valyu Add — <b>Issue Nº 01: The $77M Error</b> <span class="arw">→</span></a></div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="#"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M2 4 L12 21 L22 4" stroke="#020817" stroke-width="2.4" stroke-linejoin="round"/></svg>VALYU</a>
+    <div class="nav-links"><a href="#">Product</a><a href="#">Solutions</a><a href="#">Publishers</a><a href="#" class="cur">Newsletter</a><a href="#">Pricing</a><a href="#">Docs</a></div>
+    <div class="nav-cta"><button class="btn btn-line">Log in</button><button class="btn btn-dark">Book a call</button></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="engrave"></div>
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="eyebrow">The Valyu Add Newsletter</div>
+    <h1>Join 12,000+ business &amp; market enthusiasts</h1>
+    <p class="lede">Valyu Add is a free weekly newsletter delivering the most compelling company and market stories worldwide — every issue researched with Valyu DeepResearch.</p>
+    <div class="sub">
+      <div class="email-field">
+        <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
+        <input type="email" placeholder="example@domain.com" aria-label="Email" />
+        <button class="btn btn-cta btn-violet">Subscribe</button>
+      </div>
+      <span class="count">Free forever · unsubscribe anytime</span>
+    </div>
+
+    <div class="latest">
+      <div class="cap">Our latest cover story</div>
+      <div class="cs">
+        <div>
+          <div class="k">Issue #01 · Finance</div>
+          <h2>The $77M Error</h2>
+          <p>How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.</p>
+          <div class="meta"><span>Published 12 Jun 2026</span><span class="pipe"></span><span>14 minutes reading time</span></div>
+          <div class="go"><button class="btn btn-cta btn-violet" onclick="openIssue(1)">Get issue #01</button></div>
+        </div>
+        <div class="feature" style="height:100%">
+          <button class="cover lg" onclick="openIssue(1)" aria-label="Open issue 1">
+            <div class="img" style="background-image:url('images/01-hubgroup.png')"></div>
+            <div class="pad">
+              <div class="row1"><span>12 Jun 2026</span><span>Issue #01</span></div>
+              <div class="mast">Valyu Add<small>By Valyu</small></div>
+              <div class="btm"><div class="kk">Finance</div><h3>The $77M Error: Inside Hub Group’s Accounting Collapse</h3></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TESTIMONIAL -->
+<section class="quote">
+  <div class="wrap q">
+    <blockquote>“The most consistently sharp research briefing in my inbox. Deeply sourced, beautifully made, and genuinely useful — they do the digging so I don’t have to.”</blockquote>
+    <div class="who"><b>A. Researcher</b> · Portfolio Manager, Global Macro Fund</div>
+  </div>
+</section>
+
+<!-- ARCHIVE -->
+<section class="archive">
+  <div class="wrap">
+    <div class="ar-head">
+      <h2>Explore the archive</h2>
+      <p>Curated, deeply-researched company &amp; market deep dives — every other week.</p>
+      <div class="filters" id="filters">
+        <button class="on" data-cat="all">All</button>
+        <button data-cat="Technology">Technology</button>
+        <button data-cat="Finance">Finance</button>
+        <button data-cat="Life Sciences">Life Sciences</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="foot-cta">
+  <div class="wrap">
+    <h2>Sign up for Valyu Add</h2>
+    <p>Get curated, deeply-researched deep dives every other week.</p>
+    <div class="sub">
+      <div class="email-field">
+        <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
+        <input type="email" placeholder="example@domain.com" aria-label="Email" />
+        <button class="btn btn-cta btn-violet">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-2px;margin-right:7px"><path d="M2 4 L12 21 L22 4" stroke="#020817" stroke-width="2.4" stroke-linejoin="round"/></svg>VALYU</div>
+        <p>Valyu Add — deep-research briefings on the companies &amp; markets that move. Produced with Valyu DeepResearch.</p>
+      </div>
+      <div><h4>Newsletter</h4><a href="#">Technology</a><a href="#">Finance</a><a href="#">Life Sciences</a><a href="#">Full archive</a></div>
+      <div><h4>Valyu</h4><a href="#">Search API</a><a href="#">DeepResearch</a><a href="#">Pricing</a><a href="#">Docs</a></div>
+      <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">X / Twitter</a><a href="#">LinkedIn</a></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Valyu · Valyu Add is produced with Valyu DeepResearch</span><span>Bi-weekly · Free forever</span></div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="scrim" id="scrim">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <button class="x" onclick="closeModal()" aria-label="Close">✕</button>
+    <h2 id="m-title">The $77M Error</h2>
+    <p class="dek" id="m-dek"></p>
+    <div class="row">
+      <div class="when"><b id="m-pub">Published 12 Jun 2026</b><span id="m-read">14 minutes reading time</span></div>
+      <div class="getf">
+        <div class="email-field">
+          <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
+          <input type="email" placeholder="example@domain.com" aria-label="Email" />
+        </div>
+        <button class="btn btn-cta btn-violet">Get issue</button>
+      </div>
+    </div>
+    <div class="modal-hero" id="m-hero"></div>
+    <div class="byline">
+      <div class="ava"><span></span><span></span></div>
+      <div class="who"><b id="m-author">Author: Valyu Research Desk</b><br><span class="rev" id="m-rev">Reviewed by: Valyu DeepResearch</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ISSUES = [
+    {n:1, img:'01-hubgroup',  k:'Finance',       t:'The $77M Error: Inside Hub Group’s Accounting Collapse', d:'12 Jun 2026', r:14, dek:'How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:2, img:'02-stablecoin',  k:'Finance',       t:'Reserve Currency: What Backs the Stablecoin Boom', d:'29 May 2026', r:12, dek:'What actually sits behind the stablecoin float — T-bills, repo, and the reserves that decide whether a peg holds under stress.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:3, img:'03-nvidia',      k:'Technology',    t:'The Cost of Compute: Nvidia’s Pricing Power Decoded', d:'15 May 2026', r:16, dek:'Margins, allocation, and the pricing power behind the world’s most valuable chipmaker — read line by line.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:4, img:'04-asml',        k:'Technology',    t:'Selling the Picks: How ASML Cornered Lithography', d:'1 May 2026', r:13, dek:'One company makes the machines that make every advanced chip. We trace how ASML built an unassailable monopoly.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:5, img:'05-novonordisk', k:'Life Sciences', t:'The Weight of a Breakthrough: Novo Nordisk &amp; GLP-1', d:'17 Apr 2026', r:15, dek:'GLP-1 turned a quiet insulin maker into Europe’s most valuable company. We follow both the money and the molecule.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:6, img:'06-wework',      k:'Finance',       t:'Burning Runway: A Forensic Read of WeWork’s Filings', d:'3 Apr 2026', r:11, dek:'A forensic read of the filings behind the most expensive startup collapse of the decade.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:7, img:'07-intuitive',   k:'Life Sciences', t:'The Robot in the OR: Inside Intuitive Surgical', d:'20 Mar 2026', r:13, dek:'How Intuitive Surgical built a razor-and-blades empire in the operating room — and what defends it.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:8, img:'08-msci',        k:'Finance',       t:'Indexing the World: The MSCI Moat', d:'6 Mar 2026', r:12, dek:'The index nobody can ignore. How MSCI turned a data set into a toll booth on global capital.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:9, img:'09-svb',         k:'Finance',       t:'Deposits &amp; Duration: What SVB’s Balance Sheet Told Us', d:'20 Feb 2026', r:14, dek:'Deposits, duration, and the balance-sheet mismatch that took down a bank in 48 hours.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+  ];
+  const byN = Object.fromEntries(ISSUES.map(i=>[i.n,i]));
+  const pad = n => String(n).padStart(2,'0');
+
+  document.getElementById('grid').innerHTML = ISSUES.filter(i=>i.n>1).map(i=>`
+    <div class="item" data-cat="${i.k}">
+      <button class="cover" onclick="openIssue(${i.n})" aria-label="Open issue ${i.n}">
+        <div class="img" style="background-image:url('images/${i.img}.png')"></div>
+        <div class="pad">
+          <div class="row1"><span>${i.d}</span><span>Issue #${pad(i.n)}</span></div>
+          <div class="mast">Valyu Add<small>By Valyu</small></div>
+          <div class="btm"><div class="kk">${i.k}</div><h3>${i.t}</h3></div>
+        </div>
+      </button>
+      <div class="label">
+        <div class="n">Issue #${pad(i.n)}</div>
+        <div class="t">${i.t}</div>
+        <div class="d">${i.d} · ${i.r} min read</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('filters').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on', x===b));
+    const c = b.dataset.cat;
+    document.querySelectorAll('.item').forEach(it=>it.classList.toggle('hide', c!=='all' && it.dataset.cat!==c));
+  });
+
+  const $ = id => document.getElementById(id);
+  function openIssue(n){
+    const i = byN[n];
+    $('m-title').innerHTML = i.t.split(':')[0];
+    $('m-dek').innerHTML = i.dek;
+    $('m-pub').textContent = `Published ${i.d}`;
+    $('m-read').textContent = `${i.r} minutes reading time`;
+    $('m-author').textContent = `Author: ${i.a}`;
+    $('m-rev').textContent = `Reviewed by: ${i.rv}`;
+    $('m-hero').style.backgroundImage = `url('images/${i.img}.png')`;
+    $('scrim').classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeModal(){ $('scrim').classList.remove('open'); document.body.style.overflow=''; }
+  $('scrim').addEventListener('click', e=>{ if(e.target===$('scrim')) closeModal(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
