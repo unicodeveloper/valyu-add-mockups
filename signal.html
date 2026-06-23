@@ -112,6 +112,14 @@
   .cover:hover .img{transform:scale(1.07)}
   .cover::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(178deg,rgba(8,10,16,.66) 0%,rgba(8,10,16,.05) 30%,rgba(8,10,16,.12) 55%,rgba(8,10,16,.9) 100%)}
   .cover::after{content:"";position:absolute;inset:0;z-index:3;border-radius:13px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+  /* light-toned covers: dark text + light scrim */
+  .cover.light{color:#0b0e14}
+  .cover.light::before{background:linear-gradient(178deg,rgba(250,249,246,.84) 0%,rgba(250,249,246,.1) 30%,rgba(250,249,246,.16) 55%,rgba(250,249,246,.93) 100%)}
+  .cover.light::after{box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .cover.light .mast small{color:rgba(11,14,20,.55);opacity:1}
+  .cover.light .iss{color:rgba(11,14,20,.72);opacity:1}
+  .cover.light .kicker{color:rgba(11,14,20,.66);opacity:1}
+  .cover.light .meta{color:#0b0e14;opacity:.72}
   .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:space-between;padding:20px}
   .cover .top{display:flex;justify-content:space-between;align-items:flex-start}
   .cover .mast{font-family:var(--serif);font-style:italic;font-size:18px;font-weight:500;line-height:1}
@@ -297,6 +305,8 @@
       <button data-cat="Technology">Technology</button>
       <button data-cat="Finance">Finance</button>
       <button data-cat="Life Sciences">Life Sciences</button>
+      <button data-cat="Corporate R&amp;D">Corporate R&amp;D</button>
+      <button data-cat="Healthcare">Healthcare</button>
     </div>
   </div>
   <div class="grid" id="grid"></div>
@@ -357,15 +367,19 @@
 
 <script>
   const ISSUES = [
-    {n:1, img:'01-hubgroup',  k:'Finance',       t:'The $77M Error: Inside Hub Group’s Accounting Collapse', d:'12 Jun 2026', r:14, s:41, dek:'How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.'},
-    {n:2, img:'02-stablecoin',  k:'Finance',       t:'Reserve Currency: What Backs the Stablecoin Boom', d:'29 May 2026', r:12, s:38, dek:'What actually sits behind the stablecoin float — T-bills, repo, and the reserves that decide whether a peg holds under stress.'},
-    {n:3, img:'03-nvidia',      k:'Technology',    t:'The Cost of Compute: Nvidia’s Pricing Power Decoded', d:'15 May 2026', r:16, s:52, dek:'Margins, allocation, and the pricing power behind the world’s most valuable chipmaker — read line by line.'},
-    {n:4, img:'04-asml',        k:'Technology',    t:'Selling the Picks: How ASML Cornered Lithography', d:'1 May 2026', r:13, s:33, dek:'One company makes the machines that make every advanced chip. We trace how ASML built an unassailable monopoly.'},
-    {n:5, img:'05-novonordisk', k:'Life Sciences', t:'The Weight of a Breakthrough: Novo Nordisk &amp; GLP-1', d:'17 Apr 2026', r:15, s:36, dek:'GLP-1 turned a quiet insulin maker into Europe’s most valuable company. We follow both the money and the molecule.'},
-    {n:6, img:'06-wework',      k:'Finance',       t:'Burning Runway: A Forensic Read of WeWork’s Filings', d:'3 Apr 2026', r:11, s:44, dek:'A forensic read of the filings behind the most expensive startup collapse of the decade.'},
-    {n:7, img:'07-intuitive',   k:'Life Sciences', t:'The Robot in the OR: Inside Intuitive Surgical', d:'20 Mar 2026', r:13, s:30, dek:'How Intuitive Surgical built a razor-and-blades empire in the operating room — and what defends it.'},
-    {n:8, img:'08-msci',        k:'Finance',       t:'Indexing the World: The MSCI Moat', d:'6 Mar 2026', r:12, s:31, dek:'The index nobody can ignore. How MSCI turned a data set into a toll booth on global capital.'},
-    {n:9, img:'09-svb',         k:'Finance',       t:'Deposits &amp; Duration: What SVB’s Balance Sheet Told Us', d:'20 Feb 2026', r:14, s:48, dek:'Deposits, duration, and the balance-sheet mismatch that took down a bank in 48 hours.'},
+    {n:1, img:'01-hubgroup',   k:'Finance',        tone:'dark',  t:'The $77M Error: Inside Hub Group’s Accounting Collapse', d:'12 Jun 2026', r:14, s:41, dek:'How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.'},
+    {n:2, img:'02-stablecoin',  k:'Finance',        tone:'light', t:'Reserve Currency: What Backs the Stablecoin Boom', d:'29 May 2026', r:12, s:38, dek:'What actually sits behind the stablecoin float — T-bills, repo, and the reserves that decide whether a peg holds under stress.'},
+    {n:3, img:'03-nvidia',      k:'Technology',     tone:'dark',  t:'The Cost of Compute: Nvidia’s Pricing Power Decoded', d:'15 May 2026', r:16, s:52, dek:'Margins, allocation, and the pricing power behind the world’s most valuable chipmaker — read line by line.'},
+    {n:4, img:'04-asml',        k:'Technology',     tone:'dark',  t:'Selling the Picks: How ASML Cornered Lithography', d:'1 May 2026', r:13, s:33, dek:'One company makes the machines that make every advanced chip. We trace how ASML built an unassailable monopoly.'},
+    {n:5, img:'05-novonordisk', k:'Life Sciences',  tone:'light', t:'The Weight of a Breakthrough: Novo Nordisk &amp; GLP-1', d:'17 Apr 2026', r:15, s:36, dek:'GLP-1 turned a quiet insulin maker into Europe’s most valuable company. We follow both the money and the molecule.'},
+    {n:6, img:'06-wework',      k:'Finance',        tone:'dark',  t:'Burning Runway: A Forensic Read of WeWork’s Filings', d:'3 Apr 2026', r:11, s:44, dek:'A forensic read of the filings behind the most expensive startup collapse of the decade.'},
+    {n:7, img:'07-intuitive',   k:'Life Sciences',  tone:'dark',  t:'The Robot in the OR: Inside Intuitive Surgical', d:'20 Mar 2026', r:13, s:30, dek:'How Intuitive Surgical built a razor-and-blades empire in the operating room — and what defends it.'},
+    {n:8, img:'08-msci',        k:'Finance',        tone:'dark',  t:'Indexing the World: The MSCI Moat', d:'6 Mar 2026', r:12, s:31, dek:'The index nobody can ignore. How MSCI turned a data set into a toll booth on global capital.'},
+    {n:9, img:'09-svb',         k:'Finance',        tone:'light', t:'Deposits &amp; Duration: What SVB’s Balance Sheet Told Us', d:'20 Feb 2026', r:14, s:48, dek:'Deposits, duration, and the balance-sheet mismatch that took down a bank in 48 hours.'},
+    {n:10, img:'10-qualcomm',    k:'Corporate R&amp;D', tone:'light', t:'The Patent Machine: How Qualcomm Turns R&amp;D into Royalties', d:'6 Feb 2026', r:13, s:35, dek:'How a modem maker turned a patent portfolio into a royalty empire — and why nearly every phone quietly pays the Qualcomm tax.'},
+    {n:11, img:'11-alphabet',    k:'Corporate R&amp;D', tone:'dark',  t:'Moonshot Economics: Inside Alphabet’s Other Bets', d:'23 Jan 2026', r:14, s:40, dek:'Self-driving cars, delivery drones, longevity labs — a clear-eyed look at what Alphabet’s moonshots actually cost and earn.'},
+    {n:12, img:'12-unitedhealth', k:'Healthcare',     tone:'light', t:'The Quiet Giant: Inside UnitedHealth Group', d:'9 Jan 2026', r:15, s:46, dek:'Insurer, provider, data broker, pharmacy middleman — how UnitedHealth quietly became the most powerful company in American healthcare.'},
+    {n:13, img:'13-pbm',         k:'Healthcare',     tone:'light', t:'The Middlemen: How PBMs Reshaped Drug Pricing', d:'26 Dec 2025', r:12, s:39, dek:'The invisible middlemen between you and your prescription — and how they capture a slice of every drug dollar.'},
   ];
   const byN = Object.fromEntries(ISSUES.map(i=>[i.n,i]));
   const pad = n => String(n).padStart(2,'0');
@@ -374,7 +388,7 @@
   const g = document.getElementById('grid');
   g.innerHTML = ISSUES.filter(i=>i.n>1).map(i=>`
     <div class="item reveal" data-cat="${i.k}">
-      <button class="cover" onclick="openIssue(${i.n})" aria-label="Open issue ${i.n}">
+      <button class="cover ${i.tone==='light'?'light':''}" onclick="openIssue(${i.n})" aria-label="Open issue ${i.n}">
         <div class="img" style="background-image:url('images/${i.img}.png')"></div>
         <div class="pad">
           <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Nº ${pad(i.n)}</div></div>
