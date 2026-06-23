@@ -98,14 +98,15 @@
   .cover:hover{transform:translateY(-6px);box-shadow:0 36px 76px -28px rgba(2,8,23,.55)}
   .cover:hover .img{transform:scale(1.05)}
   .cover::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.22) 0%,transparent 16%,transparent 74%,rgba(0,0,0,.28) 100%)}
-  .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:22px}
-  .cover .row1{display:flex;justify-content:space-between;font-family:var(--display);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:600}
-  .cover .mast{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.7vw,38px);line-height:.92;letter-spacing:-.5px;margin-top:14px}
-  .cover .mast{line-height:1.0}
-  .cover .mast small{display:block;font-family:var(--display);font-weight:600;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:14px}
+  .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:26px}
+  .cover .row1{display:flex;justify-content:space-between;font-family:var(--display);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:500}
+  .cover .mast{font-family:var(--serif);font-weight:450;font-size:clamp(17px,1.5vw,21px);line-height:1.0;letter-spacing:0;margin-top:11px}
+  .cover .mast small{display:block;font-family:var(--display);font-weight:500;font-size:7px;letter-spacing:2.4px;text-transform:uppercase;color:rgba(255,255,255,.48);margin-top:7px}
   .cover .btm{margin-top:auto}
-  .cover .btm .kk{font-family:var(--display);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.74);font-weight:600;margin-bottom:8px}
-  .cover .btm h3{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.9vw,27px);line-height:1.06;letter-spacing:-.3px}
+  .cover .btm .kk{font-family:var(--display);font-size:9px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(255,255,255,.66);font-weight:500;margin-bottom:11px}
+  .cover .btm h3{font-family:var(--serif);font-weight:400;font-size:clamp(18px,1.6vw,23px);line-height:1.18;letter-spacing:-.2px;max-width:14ch}
+  .cover.lg .mast{font-size:25px}
+  .cover.lg .btm h3{font-size:clamp(22px,2vw,30px);line-height:1.12;max-width:16ch}
   .cover.lg{aspect-ratio:auto;height:100%;min-height:470px}
   /* light-toned covers: dark text + light scrim */
   .cover.light{color:#0b0e14}
