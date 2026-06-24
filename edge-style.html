@@ -6,15 +6,10 @@
 <title>Valyu Add — A bi-weekly research briefing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- valyu.ai brand fonts: Helios Extended (display), Neue Montreal (body), Helvetica Now Display (buttons) self-hosted from valyu.ai · Lora (serif) -->
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<!-- Fonts: Inter (body) · Helios Extended (display, self-hosted) · JetBrains Mono (mono) · Lora (serif) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 <style>
-  /* ── valyu.ai brand typefaces ── */
   @font-face{font-family:"Helios Extended";src:url("fonts/HeliosExt.otf") format("opentype");font-weight:400 800;font-display:swap}
-  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Regular.otf") format("opentype");font-weight:400;font-display:swap}
-  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Medium.otf") format("opentype");font-weight:450 550;font-display:swap}
-  @font-face{font-family:"Neue Montreal";src:url("fonts/NeueMontreal-Bold.otf") format("opentype");font-weight:600 800;font-display:swap}
-  @font-face{font-family:"Helvetica Now Display";src:url("fonts/HelveticaNowDisplay-Bold.ttf") format("truetype");font-weight:600 800;font-display:swap}
   :root{
     --ink:#020817;          /* valyu near-black navy */
     --paper:#ffffff;
@@ -24,9 +19,10 @@
     --violet:#7c3aed;       /* valyu accent */
     --violet-2:#6d28d9;
     --serif:"Lora", Georgia, serif;
-    --display:"Helios Extended", "Archivo Expanded", Inter, system-ui, sans-serif;
-    --body:"Neue Montreal", Inter, system-ui, sans-serif;
-    --cta:"Helvetica Now Display", "Neue Montreal", system-ui, sans-serif;
+    --display:"Helios Extended", Inter, system-ui, sans-serif;
+    --body:"Inter", system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --cta:"Inter", system-ui, sans-serif;
     --ease:cubic-bezier(.2,.7,.2,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -98,22 +94,27 @@
   .cover:hover{transform:translateY(-6px);box-shadow:0 36px 76px -28px rgba(2,8,23,.55)}
   .cover:hover .img{transform:scale(1.05)}
   .cover::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.22) 0%,transparent 16%,transparent 74%,rgba(0,0,0,.28) 100%)}
-  .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:26px}
-  .cover .row1{display:flex;justify-content:space-between;font-family:var(--display);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:500}
-  .cover .mast{font-family:var(--serif);font-weight:450;font-size:clamp(17px,1.5vw,21px);line-height:1.0;letter-spacing:0;margin-top:11px}
-  .cover .mast small{display:block;font-family:var(--display);font-weight:500;font-size:7px;letter-spacing:2.4px;text-transform:uppercase;color:rgba(255,255,255,.48);margin-top:7px}
-  .cover .btm{margin-top:auto}
-  .cover .btm .kk{font-family:var(--display);font-size:9px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(255,255,255,.66);font-weight:500;margin-bottom:11px}
-  .cover .btm h3{font-family:var(--serif);font-weight:400;font-size:clamp(18px,1.6vw,23px);line-height:1.18;letter-spacing:-.2px;max-width:14ch}
-  .cover.lg .mast{font-size:25px}
-  .cover.lg .btm h3{font-size:clamp(22px,2vw,30px);line-height:1.12;max-width:16ch}
+  .cover::after{content:"";position:absolute;inset:0;z-index:3;border-radius:11px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+  .cover .pad{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:space-between;padding:24px}
+  .cover .top{display:flex;justify-content:space-between;align-items:flex-start}
+  .cover .mast{font-family:var(--serif);font-style:italic;font-weight:500;font-size:18px;line-height:1.0}
+  .cover .iss{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.5px;opacity:.7}
+  .cover .kicker{font-family:var(--display);font-weight:500;font-size:9px;letter-spacing:2.4px;text-transform:uppercase;opacity:.7;margin-bottom:11px}
+  .cover h3{font-family:var(--serif);font-weight:500;font-size:clamp(18px,1.45vw,23px);line-height:1.16;letter-spacing:-.2px;max-width:15ch}
+  .cover .meta{font-family:var(--mono);display:flex;gap:13px;font-size:10px;opacity:.8;font-weight:500;margin-top:14px;letter-spacing:.2px}
+  .cover .getrow{overflow:hidden;height:0;opacity:0;transition:height .3s var(--ease),opacity .3s var(--ease),margin .3s var(--ease)}
+  .cover:hover .getrow{height:22px;opacity:1;margin-top:12px}
+  .cover .getrow span{font-family:var(--display);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;display:inline-flex;gap:7px;align-items:center}
   .cover.lg{aspect-ratio:auto;height:100%;min-height:470px}
+  .cover.lg .mast{font-size:24px}
+  .cover.lg h3{font-size:clamp(22px,2vw,30px);line-height:1.12;max-width:16ch}
   /* light-toned covers: dark text + light scrim */
   .cover.light{color:#0b0e14}
   .cover.light::before{background:linear-gradient(180deg,rgba(255,255,255,.40) 0%,transparent 16%,transparent 74%,rgba(255,255,255,.48) 100%)}
-  .cover.light .row1{color:rgba(11,14,20,.78)}
-  .cover.light .mast small{color:rgba(11,14,20,.55)}
-  .cover.light .btm .kk{color:rgba(11,14,20,.66)}
+  .cover.light::after{box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .cover.light .iss{color:rgba(11,14,20,.72);opacity:1}
+  .cover.light .kicker{color:rgba(11,14,20,.66);opacity:1}
+  .cover.light .meta{color:#0b0e14;opacity:.72}
 
   /* ===== TESTIMONIAL (light panel) ===== */
   .quote{background:#faf9f6;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:78px 0}
@@ -132,11 +133,12 @@
   .filters button:hover{color:var(--ink)}
   .filters button.on{color:#fff;background:var(--violet);border-color:var(--violet)}
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:42px 26px}
-  .item .label{margin-top:16px}
-  .item .label .n{font-family:var(--display);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--violet);font-weight:600}
-  .item .label .t{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.18;margin-top:7px;letter-spacing:-.2px;transition:color .2s}
+  .item .label{margin-top:15px;border-top:1px solid var(--line);padding-top:13px}
+  .item .label .n{font-family:var(--display);font-weight:600;font-size:10.5px;letter-spacing:1px;color:var(--violet);text-transform:uppercase}
+  .item .label .t{font-family:var(--serif);font-weight:500;font-size:18px;line-height:1.16;margin-top:7px;letter-spacing:-.2px;transition:color .2s}
   .item:hover .label .t{color:var(--violet-2)}
-  .item .label .d{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .item .label .d{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:9px;display:flex;gap:10px;align-items:center}
+  .item .label .d .pipe{width:1px;height:11px;background:var(--line-2)}
   .item.hide{display:none}
 
   /* ===== FOOTER ===== */
@@ -208,7 +210,7 @@
   <div class="wrap">
     <div class="eyebrow">The Valyu Add Newsletter</div>
     <h1>Join 12,000+ professionals and knowledge workers</h1>
-    <p class="lede">Valyu Add is a free weekly newsletter delivering the most compelling company and market stories worldwide — every issue researched with Valyu DeepResearch.</p>
+    <p class="lede">Valyu Add is a free weekly newsletter delivering the most compelling company and market stories worldwide — every issue researched, cited, and verified with Valyu DeepResearch.</p>
     <div class="sub">
       <div class="email-field">
         <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
@@ -232,9 +234,12 @@
           <button class="cover lg" onclick="openIssue(1)" aria-label="Open issue 1">
             <div class="img" style="background-image:url('images/01-hubgroup.png')"></div>
             <div class="pad">
-              <div class="row1"><span>12 Jun 2026</span><span>Issue #01</span></div>
-              <div class="mast">Valyu Add<small>Newsletter</small></div>
-              <div class="btm"><div class="kk">Finance</div><h3>The $77M Error: Inside Hub Group’s Accounting Collapse</h3></div>
+              <div class="top"><div class="mast">Valyu Add</div><div class="iss">Nº 01</div></div>
+              <div>
+                <div class="kicker">Finance</div>
+                <h3>The $77M Error: Inside Hub Group’s Accounting Collapse</h3>
+                <div class="meta"><span>◷ 14 min read</span></div>
+              </div>
             </div>
           </button>
         </div>
@@ -311,9 +316,9 @@
       <div class="getf">
         <div class="email-field">
           <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
-          <input type="email" placeholder="example@domain.com" aria-label="Email" />
+          <input type="email" id="m-email" placeholder="example@domain.com" aria-label="Email" onkeydown="if(event.key==='Enter')getIssue()" />
         </div>
-        <button class="btn btn-cta btn-violet">Get issue</button>
+        <button class="btn btn-cta btn-violet" onclick="getIssue()">Get issue</button>
       </div>
     </div>
     <div class="modal-hero" id="m-hero"></div>
@@ -326,19 +331,19 @@
 
 <script>
   const ISSUES = [
-    {n:1, img:'01-hubgroup',   k:'Finance',        tone:'dark',  t:'The $77M Error: Inside Hub Group’s Accounting Collapse', d:'12 Jun 2026', r:14, dek:'How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:2, img:'02-stablecoin',  k:'Finance',        tone:'light', t:'Reserve Currency: What Backs the Stablecoin Boom', d:'29 May 2026', r:12, dek:'What actually sits behind the stablecoin float — T-bills, repo, and the reserves that decide whether a peg holds under stress.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:3, img:'03-nvidia',      k:'Technology',     tone:'dark',  t:'The Cost of Compute: Nvidia’s Pricing Power Decoded', d:'15 May 2026', r:16, dek:'Margins, allocation, and the pricing power behind the world’s most valuable chipmaker — read line by line.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:4, img:'04-asml',        k:'Technology',     tone:'dark',  t:'Selling the Picks: How ASML Cornered Lithography', d:'1 May 2026', r:13, dek:'One company makes the machines that make every advanced chip. We trace how ASML built an unassailable monopoly.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:5, img:'05-novonordisk', k:'Life Sciences',  tone:'dark', t:'The Weight of a Breakthrough: Novo Nordisk &amp; GLP-1', d:'17 Apr 2026', r:15, dek:'GLP-1 turned a quiet insulin maker into Europe’s most valuable company. We follow both the money and the molecule.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:6, img:'06-wework',      k:'Finance',        tone:'dark',  t:'Burning Runway: A Forensic Read of WeWork’s Filings', d:'3 Apr 2026', r:11, dek:'A forensic read of the filings behind the most expensive startup collapse of the decade.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:7, img:'07-intuitive',   k:'Life Sciences',  tone:'dark',  t:'The Robot in the OR: Inside Intuitive Surgical', d:'20 Mar 2026', r:13, dek:'How Intuitive Surgical built a razor-and-blades empire in the operating room — and what defends it.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:8, img:'08-msci',        k:'Finance',        tone:'dark',  t:'Indexing the World: The MSCI Moat', d:'6 Mar 2026', r:12, dek:'The index nobody can ignore. How MSCI turned a data set into a toll booth on global capital.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:9, img:'09-svb',         k:'Finance',        tone:'light', t:'Deposits &amp; Duration: What SVB’s Balance Sheet Told Us', d:'20 Feb 2026', r:14, dek:'Deposits, duration, and the balance-sheet mismatch that took down a bank in 48 hours.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:10, img:'10-qualcomm',    k:'Corporate R&amp;D', tone:'light', t:'The Patent Machine: How Qualcomm Turns R&amp;D into Royalties', d:'6 Feb 2026', r:13, dek:'How a modem maker turned a patent portfolio into a royalty empire — and why nearly every phone quietly pays the Qualcomm tax.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:11, img:'11-alphabet',    k:'Corporate R&amp;D', tone:'dark',  t:'Moonshot Economics: Inside Alphabet’s Other Bets', d:'23 Jan 2026', r:14, dek:'Self-driving cars, delivery drones, longevity labs — a clear-eyed look at what Alphabet’s moonshots actually cost and earn.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:12, img:'12-unitedhealth', k:'Healthcare',     tone:'light', t:'The Quiet Giant: Inside UnitedHealth Group', d:'9 Jan 2026', r:15, dek:'Insurer, provider, data broker, pharmacy middleman — how UnitedHealth quietly became the most powerful company in American healthcare.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
-    {n:13, img:'13-pbm',         k:'Healthcare',     tone:'light', t:'The Middlemen: How PBMs Reshaped Drug Pricing', d:'26 Dec 2025', r:12, dek:'The invisible middlemen between you and your prescription — and how they capture a slice of every drug dollar.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:1, img:'01-hubgroup',   k:'Finance',        tone:'dark',  t:'The $77M Error: Inside Hub Group’s Accounting Collapse', d:'12 Jun 2026', r:14, s:41, dek:'How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:2, img:'02-stablecoin',  k:'Finance',        tone:'light', t:'Reserve Currency: What Backs the Stablecoin Boom', d:'29 May 2026', r:12, s:38, dek:'What actually sits behind the stablecoin float — T-bills, repo, and the reserves that decide whether a peg holds under stress.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:3, img:'03-nvidia',      k:'Technology',     tone:'dark',  t:'The Cost of Compute: Nvidia’s Pricing Power Decoded', d:'15 May 2026', r:16, s:52, dek:'Margins, allocation, and the pricing power behind the world’s most valuable chipmaker — read line by line.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:4, img:'04-asml',        k:'Technology',     tone:'dark',  t:'Selling the Picks: How ASML Cornered Lithography', d:'1 May 2026', r:13, s:33, dek:'One company makes the machines that make every advanced chip. We trace how ASML built an unassailable monopoly.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:5, img:'05-novonordisk', k:'Life Sciences',  tone:'dark', t:'The Weight of a Breakthrough: Novo Nordisk &amp; GLP-1', d:'17 Apr 2026', r:15, s:36, dek:'GLP-1 turned a quiet insulin maker into Europe’s most valuable company. We follow both the money and the molecule.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:6, img:'06-wework',      k:'Finance',        tone:'dark',  t:'Burning Runway: A Forensic Read of WeWork’s Filings', d:'3 Apr 2026', r:11, s:44, dek:'A forensic read of the filings behind the most expensive startup collapse of the decade.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:7, img:'07-intuitive',   k:'Life Sciences',  tone:'dark',  t:'The Robot in the OR: Inside Intuitive Surgical', d:'20 Mar 2026', r:13, s:30, dek:'How Intuitive Surgical built a razor-and-blades empire in the operating room — and what defends it.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:8, img:'08-msci',        k:'Finance',        tone:'dark',  t:'Indexing the World: The MSCI Moat', d:'6 Mar 2026', r:12, s:31, dek:'The index nobody can ignore. How MSCI turned a data set into a toll booth on global capital.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:9, img:'09-svb',         k:'Finance',        tone:'light', t:'Deposits &amp; Duration: What SVB’s Balance Sheet Told Us', d:'20 Feb 2026', r:14, s:48, dek:'Deposits, duration, and the balance-sheet mismatch that took down a bank in 48 hours.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:10, img:'10-qualcomm',    k:'Corporate R&amp;D', tone:'light', t:'The Patent Machine: How Qualcomm Turns R&amp;D into Royalties', d:'6 Feb 2026', r:13, s:35, dek:'How a modem maker turned a patent portfolio into a royalty empire — and why nearly every phone quietly pays the Qualcomm tax.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:11, img:'11-alphabet',    k:'Corporate R&amp;D', tone:'dark',  t:'Moonshot Economics: Inside Alphabet’s Other Bets', d:'23 Jan 2026', r:14, s:40, dek:'Self-driving cars, delivery drones, longevity labs — a clear-eyed look at what Alphabet’s moonshots actually cost and earn.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:12, img:'12-unitedhealth', k:'Healthcare',     tone:'light', t:'The Quiet Giant: Inside UnitedHealth Group', d:'9 Jan 2026', r:15, s:46, dek:'Insurer, provider, data broker, pharmacy middleman — how UnitedHealth quietly became the most powerful company in American healthcare.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
+    {n:13, img:'13-pbm',         k:'Healthcare',     tone:'light', t:'The Middlemen: How PBMs Reshaped Drug Pricing', d:'26 Dec 2025', r:12, s:39, dek:'The invisible middlemen between you and your prescription — and how they capture a slice of every drug dollar.', a:'Valyu Research Desk', rv:'Valyu DeepResearch'},
   ];
   const byN = Object.fromEntries(ISSUES.map(i=>[i.n,i]));
   const pad = n => String(n).padStart(2,'0');
@@ -348,15 +353,19 @@
       <button class="cover ${i.tone==='light'?'light':''}" onclick="openIssue(${i.n})" aria-label="Open issue ${i.n}">
         <div class="img" style="background-image:url('images/${i.img}.png')"></div>
         <div class="pad">
-          <div class="row1"><span>${i.d}</span><span>Issue #${pad(i.n)}</span></div>
-          <div class="mast">Valyu Add<small>Newsletter</small></div>
-          <div class="btm"><div class="kk">${i.k}</div><h3>${i.t}</h3></div>
+          <div class="top"><div class="mast">Valyu Add</div><div class="iss">Nº ${pad(i.n)}</div></div>
+          <div>
+            <div class="kicker">${i.k}</div>
+            <h3>${i.t}</h3>
+            <div class="meta"><span>◷ ${i.r} min read</span></div>
+            <div class="getrow"><span>Get issue →</span></div>
+          </div>
         </div>
       </button>
       <div class="label">
-        <div class="n">Issue #${pad(i.n)}</div>
+        <div class="n">Nº ${pad(i.n)} — ${i.k}</div>
         <div class="t">${i.t}</div>
-        <div class="d">${i.d} · ${i.r} min read</div>
+        <div class="d"><span>${i.d}</span><span class="pipe"></span><span>${i.r} min</span></div>
       </div>
     </div>`).join('');
 
@@ -368,7 +377,9 @@
   });
 
   const $ = id => document.getElementById(id);
+  let curIssue = 1;
   function openIssue(n){
+    curIssue = n;
     const i = byN[n];
     $('m-title').innerHTML = i.t.split(':')[0];
     $('m-dek').innerHTML = i.dek;
@@ -379,6 +390,8 @@
     $('m-hero').style.backgroundImage = `url('images/${i.img}.png')`;
     $('scrim').classList.add('open'); document.body.style.overflow='hidden';
   }
+  // entering an email + "Get issue" opens the issue on the site (the email just links back, Quartr Edge–style)
+  function getIssue(){ location.href = `issue.html?n=${curIssue}`; }
   function closeModal(){ $('scrim').classList.remove('open'); document.body.style.overflow=''; }
   $('scrim').addEventListener('click', e=>{ if(e.target===$('scrim')) closeModal(); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
