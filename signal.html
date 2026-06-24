@@ -231,7 +231,7 @@
 </head>
 <body>
 
-<div class="ann"><a href="#"><span class="pill">NEW</span> Issue Nº 01 — <b>The $77M Error: Inside Hub Group’s Accounting Collapse</b> <span class="arw">→</span></a></div>
+<div class="ann"><a href="#"><span class="pill">NEW</span> Issue 01 — <b>The $77M Error: Inside Hub Group’s Accounting Collapse</b> <span class="arw">→</span></a></div>
 
 <nav id="nav">
   <div class="wrap nav-in">
@@ -252,7 +252,7 @@
   <div class="mh-rule">
     <span>Independent Research</span>
     <span class="mid num">Bi-Weekly · Est. 2026</span>
-    <span class="num">Edition Nº 09</span>
+    <span class="num">Edition 09</span>
   </div>
   <h1 class="nameplate"><span class="by">A Deep-Research Briefing</span>Valyu Add</h1>
   <p class="mh-sub">One company or market, taken completely apart — every other week. <em>Deep, cited, and verified</em> with Valyu DeepResearch.</p>
@@ -270,7 +270,7 @@
 <section class="wrap">
   <div class="coverstory reveal">
     <div class="cs-text">
-      <span class="klabel">The Latest Issue · Nº 01</span>
+      <span class="klabel">The Latest Issue · 01</span>
       <h2>The $77M Error</h2>
       <p class="dek">How a $4B logistics giant understated $77M in costs across nine months — and what a continuous DeepResearch reconciliation loop would have caught first.</p>
       <div class="cs-meta"><span>Finance</span><span class="pipe"></span><span class="num">14 min read</span><span class="pipe"></span><span class="num">41 cited sources</span></div>
@@ -282,7 +282,7 @@
       <button class="cover lg" onclick="openIssue(1)" aria-label="Open issue 1">
         <div class="img" style="background-image:url('images/01-hubgroup.png')"></div>
         <div class="pad">
-          <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Nº 01 · 12 Jun 2026</div></div>
+          <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Issue 01 · 12 Jun 2026</div></div>
           <div>
             <div class="kicker">Finance</div>
             <h3 style="font-size:30px">The $77M Error: Inside Hub Group’s Accounting Collapse</h3>
@@ -344,7 +344,7 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 Valyu · Valyu Add is produced with Valyu DeepResearch</span>
-      <span class="num">Edition Nº 09 · Bi-Weekly</span>
+      <span class="num">Edition 09 · Bi-Weekly</span>
     </div>
   </div>
 </footer>
@@ -354,7 +354,7 @@
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
     <button class="x" onclick="closeModal()" aria-label="Close">✕</button>
     <div class="modal-pad">
-      <div class="eyebrow" id="m-eyebrow">Issue Nº 01 · Finance</div>
+      <div class="eyebrow" id="m-eyebrow">Issue 01 · Finance</div>
       <h2 id="m-title">The $77M Error</h2>
       <p class="dek" id="m-dek"></p>
       <div class="row">
@@ -362,7 +362,7 @@
         <div class="email-field"><input type="email" placeholder="you@firm.com" aria-label="Email address" /><button class="btn btn-violet">Get issue</button></div>
       </div>
     </div>
-    <div class="modal-hero" id="m-hero"><div class="mast" id="m-mast">Valyu Add — Nº 01</div></div>
+    <div class="modal-hero" id="m-hero"><div class="mast" id="m-mast">Valyu Add — Issue 01</div></div>
   </div>
 </div>
 
@@ -392,7 +392,7 @@
       <button class="cover ${i.tone==='light'?'light':''}" onclick="openIssue(${i.n})" aria-label="Open issue ${i.n}">
         <div class="img" style="background-image:url('images/${i.img}.png')"></div>
         <div class="pad">
-          <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Nº ${pad(i.n)}</div></div>
+          <div class="top"><div class="mast">Valyu Add</div><div class="iss num">Issue ${pad(i.n)}</div></div>
           <div>
             <div class="kicker">${i.k}</div>
             <h3>${i.t}</h3>
@@ -402,7 +402,7 @@
         </div>
       </button>
       <div class="label">
-        <div class="n">Nº ${pad(i.n)} — ${i.k}</div>
+        <div class="n">Issue ${pad(i.n)} — ${i.k}</div>
         <div class="t">${i.t}</div>
         <div class="d"><span class="num">${i.d}</span><span class="pipe"></span><span class="num">${i.r} min</span></div>
       </div>
@@ -422,12 +422,12 @@
   const $ = id => document.getElementById(id);
   function openIssue(n){
     const i = byN[n];
-    $('m-eyebrow').textContent = `Issue Nº ${pad(n)} · ${i.k}`;
+    $('m-eyebrow').textContent = `Issue ${pad(n)} · ${i.k}`;
     $('m-title').innerHTML = i.t.split(':')[0];
     $('m-dek').innerHTML = i.dek;
     $('m-when').textContent = `Published ${i.d}`;
     $('m-meta').textContent = `${i.r} min read · ${i.s} cited sources`;
-    $('m-mast').textContent = `Valyu Add — Nº ${pad(n)}`;
+    $('m-mast').textContent = `Valyu Add — Issue ${pad(n)}`;
     $('m-hero').style.backgroundImage = `linear-gradient(0deg,rgba(8,10,16,.7),rgba(8,10,16,.05)),url('images/${i.img}.png')`;
     $('scrim').classList.add('open'); document.body.style.overflow='hidden';
   }

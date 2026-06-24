@@ -210,7 +210,7 @@
   document.title = `${i.t} — Valyu Add`;
 
   const $ = id => document.getElementById(id);
-  $('eyebrow').textContent = `Issue Nº ${pad(i.n)} · ${i.k} · Bi-weekly`;
+  $('eyebrow').textContent = `Issue ${pad(i.n)} · ${i.k} · Bi-weekly`;
   $('title').textContent = i.t;
   $('dek').textContent = i.dek;
   $('author').textContent = 'Valyu Research Desk';
@@ -280,7 +280,7 @@
   $('related').innerHTML = rel.map(r=>`
     <a class="rcard" href="issue.html?n=${r.n}">
       <div class="rimg" style="background-image:url('images/${r.img}.png')"></div>
-      <div class="rn">Nº ${pad(r.n)} · ${r.k}</div>
+      <div class="rn">Issue ${pad(r.n)} · ${r.k}</div>
       <div class="rt">${r.t}</div>
     </a>`).join('');
 
