@@ -42,6 +42,18 @@
   .btn-dark{background:var(--ink);color:#fff} .btn-dark:hover{background:#1a2233}
   .btn-cta{font-family:var(--cta);text-transform:uppercase;letter-spacing:.8px;font-weight:700;font-size:12px;border-radius:6px;padding:13px 20px}
   .btn-violet{background:var(--violet);color:#fff;border-color:var(--violet);box-shadow:0 10px 24px -10px rgba(124,58,237,.65)} .btn-violet:hover{background:var(--violet-2)}
+  /* subscribe success modal */
+  @keyframes okfade{from{opacity:0}to{opacity:1}}
+  @keyframes okpop{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
+  .okscrim{position:fixed;inset:0;background:rgba(2,8,23,.5);backdrop-filter:blur(5px);z-index:95;display:none;align-items:center;justify-content:center;padding:24px}
+  .okscrim.open{display:flex;animation:okfade .2s ease}
+  .okcard{background:#fff;border-radius:20px;max-width:430px;width:100%;padding:42px 38px;text-align:center;box-shadow:0 50px 130px -30px rgba(2,8,23,.6);animation:okpop .26s var(--ease)}
+  .okcard .check{width:64px;height:64px;border-radius:50%;background:rgba(124,58,237,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+  .okcard .check svg{width:30px;height:30px;color:var(--violet)}
+  .okcard h3{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--ink)}
+  .okcard p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.55}
+  .okcard p b{color:var(--ink);font-weight:600}
+  .okcard .btn{margin-top:24px}
 
   /* ===== POST HERO ===== */
   .ph{position:relative;overflow:hidden;padding:56px 0 40px;text-align:center}
@@ -171,8 +183,8 @@
     <p>Free, bi-weekly. One company or market, taken completely apart.</p>
     <div class="email-field">
       <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
-      <input type="email" placeholder="you@firm.com" aria-label="Email" />
-      <button class="btn btn-cta btn-violet" style="margin:0 2px">Subscribe</button>
+      <input type="email" placeholder="you@firm.com" aria-label="Email" onkeydown="if(event.key==='Enter')subscribe(this)" />
+      <button class="btn btn-cta btn-violet" style="margin:0 2px" onclick="subscribe(this)">Subscribe</button>
     </div>
   </section>
 </div>
@@ -181,6 +193,15 @@
   <div class="h">More from Valyu Add</div>
   <div class="rgrid" id="related"></div>
 </div></section>
+
+<div class="okscrim" id="okScrim" onclick="if(event.target===this)closeOk()">
+  <div class="okcard" role="dialog" aria-modal="true" aria-labelledby="okTitle">
+    <div class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 L9 17 L4 12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h3 id="okTitle">You’re subscribed!</h3>
+    <p>Thanks — we’ve sent a confirmation to <b id="okEmail">your inbox</b>. Your first issue of Valyu Add will land there shortly.</p>
+    <button class="btn btn-cta btn-violet" onclick="closeOk()">Done</button>
+  </div>
+</div>
 
 <footer><div class="wrap foot-in">
   <span>© 2026 Valyu · Valyu Add is produced with Valyu DeepResearch</span>
@@ -284,7 +305,18 @@
       <div class="rt">${r.t}</div>
     </a>`).join('');
 
-  addEventListener('keydown',e=>{ if(e.key==='Escape') location.href='edge-style.html'; });
+  // subscribe → validate email → show success modal
+  function subscribe(el){
+    const field = el.closest('.email-field');
+    const input = field ? field.querySelector('input[type=email]') : null;
+    const email = (input ? input.value : '').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ if(input){ input.focus(); input.style.boxShadow='0 0 0 3px rgba(232,68,42,.25)'; setTimeout(()=>input.style.boxShadow='',1200); } return; }
+    $('okEmail').textContent = email;
+    if(input) input.value='';
+    $('okScrim').classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeOk(){ $('okScrim').classList.remove('open'); document.body.style.overflow=''; }
+  addEventListener('keydown',e=>{ if(e.key!=='Escape') return; if($('okScrim').classList.contains('open')) closeOk(); else location.href='edge-style.html'; });
 </script>
 </body>
 </html>

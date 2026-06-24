@@ -57,6 +57,16 @@
   .btn-cta{font-family:var(--cta);text-transform:uppercase;letter-spacing:.8px;font-weight:700;font-size:12px;border-radius:6px;padding:13px 20px}
   .btn-violet{background:var(--violet);color:#fff;border-color:var(--violet);box-shadow:0 10px 24px -10px rgba(124,58,237,.65)}
   .btn-violet:hover{background:var(--violet-2)}
+  /* subscribe success modal */
+  .okscrim{position:fixed;inset:0;background:rgba(2,8,23,.5);backdrop-filter:blur(5px);z-index:95;display:none;align-items:center;justify-content:center;padding:24px}
+  .okscrim.open{display:flex;animation:fade .2s ease}
+  .okcard{background:#fff;border-radius:20px;max-width:430px;width:100%;padding:42px 38px;text-align:center;box-shadow:0 50px 130px -30px rgba(2,8,23,.6);animation:pop .26s var(--ease)}
+  .okcard .check{width:64px;height:64px;border-radius:50%;background:rgba(124,58,237,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+  .okcard .check svg{width:30px;height:30px;color:var(--violet)}
+  .okcard h3{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.5px;color:var(--ink)}
+  .okcard p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.55}
+  .okcard p b{color:var(--ink);font-weight:600}
+  .okcard .btn{margin-top:24px}
 
   /* ===== HERO (light, valyu) ===== */
   .hero{position:relative;background:var(--paper);overflow:hidden;padding:74px 0 88px;text-align:center}
@@ -214,8 +224,8 @@
     <div class="sub">
       <div class="email-field">
         <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
-        <input type="email" placeholder="example@domain.com" aria-label="Email" />
-        <button class="btn btn-cta btn-violet">Subscribe</button>
+        <input type="email" placeholder="example@domain.com" aria-label="Email" onkeydown="if(event.key==='Enter')subscribe(this)" />
+        <button class="btn btn-cta btn-violet" onclick="subscribe(this)">Subscribe</button>
       </div>
       <span class="count">Free forever · unsubscribe anytime</span>
     </div>
@@ -283,8 +293,8 @@
     <div class="sub">
       <div class="email-field">
         <span class="mail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#fff" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="#fff" stroke-width="2"/></svg></span>
-        <input type="email" placeholder="example@domain.com" aria-label="Email" />
-        <button class="btn btn-cta btn-violet">Subscribe</button>
+        <input type="email" placeholder="example@domain.com" aria-label="Email" onkeydown="if(event.key==='Enter')subscribe(this)" />
+        <button class="btn btn-cta btn-violet" onclick="subscribe(this)">Subscribe</button>
       </div>
     </div>
   </div>
@@ -326,6 +336,16 @@
       <div class="ava"><span></span><span></span></div>
       <div class="who"><b id="m-author">Author: Valyu Research Desk</b><br><span class="rev" id="m-rev">Reviewed by: Valyu DeepResearch</span></div>
     </div>
+  </div>
+</div>
+
+<!-- SUBSCRIBE SUCCESS MODAL -->
+<div class="okscrim" id="okScrim" onclick="if(event.target===this)closeOk()">
+  <div class="okcard" role="dialog" aria-modal="true" aria-labelledby="okTitle">
+    <div class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 L9 17 L4 12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h3 id="okTitle">You’re subscribed!</h3>
+    <p>Thanks — we’ve sent a confirmation to <b id="okEmail">your inbox</b>. Your first issue of Valyu Add will land there shortly.</p>
+    <button class="btn btn-cta btn-violet" onclick="closeOk()">Done</button>
   </div>
 </div>
 
@@ -392,6 +412,18 @@
   }
   // entering an email + "Get issue" opens the issue on the site (the email just links back, Quartr Edge–style)
   function getIssue(){ location.href = `issue.html?n=${curIssue}`; }
+  // subscribe → validate email → show success modal
+  function subscribe(el){
+    const field = el.closest('.email-field');
+    const input = field ? field.querySelector('input[type=email]') : null;
+    const email = (input ? input.value : '').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ if(input){ input.focus(); input.style.boxShadow='0 0 0 3px rgba(232,68,42,.25)'; setTimeout(()=>input.style.boxShadow='',1200); } return; }
+    $('okEmail').textContent = email;
+    if(input) input.value='';
+    $('okScrim').classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeOk(){ $('okScrim').classList.remove('open'); document.body.style.overflow=''; }
+  addEventListener('keydown', e=>{ if(e.key==='Escape') closeOk(); });
   function closeModal(){ $('scrim').classList.remove('open'); document.body.style.overflow=''; }
   $('scrim').addEventListener('click', e=>{ if(e.target===$('scrim')) closeModal(); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
