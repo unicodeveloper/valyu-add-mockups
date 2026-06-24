@@ -144,7 +144,7 @@
       <span class="pipe"></span><span id="date"></span>
       <span class="pipe"></span><span id="read"></span>
     </div>
-    <div><span class="trust"><svg class="v" viewBox="0 0 24 24" fill="none"><path d="M2 4 L12 21 L22 4" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>Researched, cited &amp; verified with <b>Valyu DeepResearch</b> · <b id="srccount"></b> sources</span></div>
+    <div><span class="trust"><svg class="v" viewBox="0 0 24 24" fill="none"><path d="M2 4 L12 21 L22 4" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>Researched, cited &amp; verified with <b>Valyu DeepResearch</b></span></div>
   </div>
 </header>
 
@@ -216,7 +216,6 @@
   $('author').textContent = 'Valyu Research Desk';
   $('date').textContent = i.d;
   $('read').textContent = `${i.r} min read`;
-  $('srccount').textContent = i.s;
   $('banner').style.backgroundImage = `url('images/${i.img}.png')`;
   $('runp').innerHTML = `Every figure in this issue on <b style="color:#fff">${i.co}</b> was produced and verified with Valyu DeepResearch. Open the exact workflow and dig deeper — or point it at any company you like.`;
 
